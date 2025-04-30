@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>আলোর পথে সফর - ইসলামী কুইজ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Amiri', serif;
+            background: url('https://via.placeholder.com/1920x1080?text=Mosque+Pattern') no-repeat center center/cover;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            max-width: 700px;
+            width: 90%;
+            text-align: center;
+        }
+        h1 {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            font-size: 2.5em;
+            color: #4caf50;
+            margin-bottom: 20px;
+        }
+        #user-form {
+            margin-bottom: 20px;
+        }
+        #user-form input {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 80%;
+            font-size: 1em;
+        }
+        #start-btn {
+            background: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        #start-btn:hover {
+            background: #388e3c;
+        }
+        #game-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+        #progress {
+            width: 100%;
+            height: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        #progress-bar {
+            height: 100%;
+            background: #4caf50;
+            width: 0;
+            transition: width 0.3s;
+        }
+        #question-container {
+            margin-bottom: 20px;
+            display: none;
+        }
+        #question {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .option {
+            background: #4caf50;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .option:hover {
+            transform: scale(1.05);
+            background: #388e3c;
+        }
+        #result {
+            font-size: 1.5em;
+            margin: 20px 0;
+        }
+        #next-btn, #replay-btn, #download-btn {
+            background: #0288d1;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        #next-btn:hover, #replay-btn:hover, #download-btn:hover {
+            background: #01579b;
+        }
+        #leaderboard {
+            margin-top: 20px;
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        #leaderboard h2 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+        #leaderboard-list {
+            list-style: none;
+        }
+        #leaderboard-list li {
+            font-size: 1.2em;
+            margin: 5px 0;
+        }
+        #certificate {
+            margin-top: 20px;
+            background: #fff;
+            padding: 20px;
+            border: 4px solid #4caf50;
+            border-radius: 10px;
+            display: none;
+        }
+        #certificate img {
+            width: 150px;
+            margin-bottom: 10px;
+        }
+        .cartoon-character {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            width: 100px;
+            animation: bounce 2s infinite;
+        }
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background: #4caf50;
+            color: white;
+            border-radius: 5px;
+            font-size: 1em;
+            font-family: 'Amiri', serif;
+        }
+        footer a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+                width: 95%;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            #question {
+                font-size: 1.5em;
+            }
+            .option {
+                font-size: 1em;
+                padding: 10px;
+            }
+            .cartoon-character {
+                width: 70px;
+            }
+            footer {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://via.placeholder.com/100?text=Muslim+Girl" class="cartoon-character" alt="Muslim Girl">
+        <h1>আলোর পথে সফর</h1>
+        <div id="user-form">
+            <input type="text" id="user-name" placeholder="তোমার নাম লিখো" required>
+            <input type="number" id="user-age" placeholder="তোমার বয়স লিখো" required>
+            <input type="text" id="user-institution" placeholder="তোমার প্রতিষ্ঠানের নাম লিখো" required>
+            <button id="start-btn">কুইজ শুরু করো</button>
+        </div>
+        <div id="game-info" style="display: none;">
+            <span>স্কোর: <span id="score">0</span></span>
+            <span>লেভেল: <span id="level">1</span></span>
+            <span>সময়: <span id="timer">30</span>s</span>
+        </div>
+        <div id="progress" style="display: none;">
+            <div id="progress-bar"></div>
+        </div>
+        <div id="question-container">
+            <div id="question"></div>
+            <div class="options" id="options"></div>
+        </div>
+        <div id="result"></div>
+        <button id="next-btn" style="display: none;">পরবর্তী প্রশ্ন</button>
+        <button id="replay-btn" style="display: none;">আবার খেলুন</button>
+        <div id="leaderboard" style="display: none;">
+            <h2>লিডারবোর্ড</h2>
+            <ul id="leaderboard-list"></ul>
+        </div>
+        <div id="certificate" style="display: none;">
+            <img src="https://via.placeholder.com/150?text=Islamic+Seal" alt="Islamic Seal">
+            <h2>সনদ</h2>
+            <p id="certificate-text"></p>
+            <button id="download-btn">সনদ ডাউনলোড</button>
+        </div>
+        <footer>
+            &copy; ২০২৫ <a href="https://x.com/RSTSBD" target="_blank">@RSTSBD</a>. সর্বস্বত্ব সংরক্ষিত।
+        </footer>
+    </div>
+    <audio id="correct-sound" src="https://via.placeholder.com/correct-sound.mp3"></audio>
+    <audio id="wrong-sound" src="https://via.placeholder.com/wrong-sound.mp3"></audio>
+
+    <script>
+        const questions = [
+            {
+                category: "ইসলামী ইতিহাস",
+                question: "কোন নবীকে 'খলিলুল্লাহ' বলা হয়?",
+                options: ["হযরত মূসা (আ.)", "হযরত ইবরাহীম (আ.)", "হযরত ইউনুস (আ.)", "হযরত ঈসা (আ.)"],
+                correct: 1,
+                explanation: "হযরত ইবরাহীম (আ.)-কে আল্লাহর বন্ধু বা 'খলিলুল্লাহ' বলা হয় কারণ তিনি আল্লাহর প্রতি অগাধ ভক্তি প্রদর্শন করেছিলেন।"
+            },
+            {
+                category: "ইসলামী ইতিহাস",
+                question: "বদরের যুদ্ধে মুসলিমদের নেতৃত্ব কে দিয়েছিলেন?",
+                options: ["হযরত উমর (রা.)", "হযরত মুহাম্মদ (সা.)", "হযরত আলী (রা.)", "হযরত হামজা (রা.)"],
+                correct: 1,
+                explanation: "হযরত মুহাম্মদ (সা.) বদরের যুদ্ধে মুসলিমদের নেতৃত্ব দিয়েছিলেন। এটি ছিল প্রথম বড় ইসলামী যুদ্ধ।"
+            },
+            {
+                category: "কুরআন",
+                question: "কুরআনের প্রথম সূরার নাম কী?",
+                options: ["সূরা আল-ইখলাস", "সূরা আল-বাকারা", "সূরা আল-ফাতিহা", "সূরা আন-নাস"],
+                correct: 2,
+                explanation: "সূরা আল-ফাতিহা কুরআনের প্রথম সূরা, যাকে 'উম্মুল কিতাব' বলা হয়।"
+            },
+            {
+                category: "কুরআন",
+                question: "কুরআন কত বছরে অবতীর্ণ হয়েছিল?",
+                options: ["১২ বছর", "২৩ বছর", "১৫ বছর", "৩০ বছর"],
+                correct: 1,
+                explanation: "কুরআন ২৩ বছর ধরে ধাপে ধাপে হযরত মুহাম্মদ (সা.)-এর উপর অবতীর্ণ হয়েছিল।"
+            },
+            {
+                category: "সীরাহ",
+                question: "হযরত মুহাম্মদ (সা.) কোথায় জন্মগ্রহণ করেন?",
+                options: ["মদিনা", "মক্কা", "তায়েফ", "জেরুজালেম"],
+                correct: 1,
+                explanation: "হযরত মুহাম্মদ (সা.) ৫৭০ খ্রিস্টাব্দে মক্কায় জন্মগ্রহণ করেন।"
+            },
+            {
+                category: "সীরাহ",
+                question: "হযরত মুহাম্মদ (সা.)-এর প্রথম স্ত্রীর নাম কী?",
+                options: ["হযরত আয়েশা (রা.)", "হযরত ফাতিমা (রা.)", "হযরত খাদিজা (রা.)", "হযরত হাফসা (রা.)"],
+                correct: 2,
+                explanation: "হযরত খাদিজা (রা.) ছিলেন হযরত মুহাম্মদ (সা.)-এর প্রথম স্ত্রী।"
+            },
+            {
+                category: "ফিকহ",
+                question: "নামাজে কয়টি ফরজ রয়েছে?",
+                options: ["২টি", "৪টি", "৫টি", "৭টি"],
+                correct: 2,
+                explanation: "নামাজে ৫টি ফরজ রয়েছে, যেমন তাকবিরে তাহরিমা, কিয়াম, রুকু, সিজদা, এবং তাশাহুদ।"
+            },
+            {
+                category: "ফিকহ",
+                question: "জাকাত কত শতাংশ দিতে হয়?",
+                options: ["১%", "২.৫%", "৫%", "১০%"],
+                correct: 1,
+                explanation: "জাকাত প্রতি বছর সম্পদের ২.৫% হারে দিতে হয়, যদি নিসাব পরিমাণ সম্পদ থাকে।"
+            },
+            {
+                category: "ইসলামী বিজ্ঞানী",
+                question: "কোন মুসলিম বিজ্ঞানীকে 'অ্যালজেবরার জনক' বলা হয়?",
+                options: ["ইবন সিনা", "আল-খারিজমি", "ইবন রুশদ", "আল-ফারাবি"],
+                correct: 1,
+                explanation: "আল-খারিজমি তাঁর 'কিতাব আল-জাবর' গ্রন্থের জন্য অ্যালজেবরার জনক হিসেবে পরিচিত।"
+            },
+            {
+                category: "ইসলামী সংস্কৃতি",
+                question: "ইসলামী ক্যালিগ্রাফির প্রধান ফন্ট কোনটি?",
+                options: ["কুফি", "নাস্তালিক", "দিওয়ানি", "সুলুস"],
+                correct: 0,
+                explanation: "কুফি ফন্ট ইসলামী ক্যালিগ্রাফির প্রাচীনতম ও প্রধান ফন্ট।"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let level = 1;
+        let timeLeft = 30;
+        let timerInterval;
+        let userInfo = {};
+        const maxQuestions = 10;
+
+        const userForm = document.getElementById('user-form');
+        const startBtn = document.getElementById('start-btn');
+        const questionElement = document.getElementById('question');
+        const optionsElement = document.getElementById('options');
+        const resultElement = document.getElementById('result');
+        const scoreElement = document.getElementById('score');
+        const levelElement = document.getElementById('level');
+        const timerElement = document.getElementById('timer');
+        const progressBar = document.getElementById('progress-bar');
+        const gameInfo = document.getElementById('game-info');
+        const progress = document.getElementById('progress');
+        const questionContainer = document.getElementById('question-container');
+        const nextBtn = document.getElementById('next-btn');
+        const replayBtn = document.getElementById('replay-btn');
+        const leaderboard = document.getElementById('leaderboard');
+        const leaderboardList = document.getElementById('leaderboard-list');
+        const certificate = document.getElementById('certificate');
+        const certificateText = document.getElementById('certificate-text');
+        const downloadBtn = document.getElementById('download-btn');
+        const correctSound = document.getElementById('correct-sound');
+        const wrongSound = document.getElementById('wrong-sound');
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function startQuiz() {
+            const name = document.getElementById('user-name').value.trim();
+            const age = document.getElementById('user-age').value.trim();
+            const institution = document.getElementById('user-institution').value.trim();
+
+            if (!name || !age || !institution) {
+                alert('দয়া করে নাম, বয়স, এবং প্রতিষ্ঠানের নাম পূরণ করো!');
+                return;
+            }
+
+            userInfo = { name, age, institution };
+            userForm.style.display = 'none';
+            gameInfo.style.display = 'flex';
+            progress.style.display = 'block';
+            questionContainer.style.display = 'block';
+
+            shuffleArray(questions);
+            currentQuestionIndex = 0;
+            score = 0;
+            level = 1;
+            timeLeft = 30;
+            scoreElement.textContent = score;
+            levelElement.textContent = level;
+            timerElement.textContent = timeLeft;
+            leaderboard.style.display = 'none';
+            certificate.style.display = 'none';
+            nextBtn.style.display = 'none';
+            replayBtn.style.display = 'none';
+            loadQuestion();
+            startTimer();
+        }
+
+        function loadQuestion() {
+            if (currentQuestionIndex >= maxQuestions) {
+                endQuiz();
+                return;
+            }
+            const q = questions[currentQuestionIndex % questions.length];
+            questionElement.textContent = q.question;
+            optionsElement.innerHTML = '';
+            q.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.classList.add('option');
+                btn.textContent = option;
+                btn.onclick = () => checkAnswer(index, q.correct);
+                optionsElement.appendChild(btn);
+            });
+            resultElement.textContent = '';
+            progressBar.style.width = `${((currentQuestionIndex + 1) / maxQuestions) * 100}%`;
+            timeLeft = 30;
+            timerElement.textContent = timeLeft;
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    checkAnswer(-1, questions[currentQuestionIndex % questions.length].correct);
+                }
+            }, 1000);
+        }
+
+        function checkAnswer(selected, correct) {
+            clearInterval(timerInterval);
+            const q = questions[currentQuestionIndex % questions.length];
+            if (selected === correct) {
+                score += 10;
+                resultElement.textContent = 'মাশাল্লাহ! তুমি সঠিক!';
+                resultElement.style.color = '#4caf50';
+                correctSound.play().catch(() => {});
+            } else {
+                resultElement.textContent = `ওপস, ভুল হয়েছে! সঠিক উত্তর: ${q.options[correct]}. ${q.explanation}`;
+                resultElement.style.color = '#c2185b';
+                wrongSound.play().catch(() => {});
+            }
+            scoreElement.textContent = score;
+            if (score >= level * 50) {
+                level++;
+                levelElement.textContent = level;
+            }
+            nextBtn.style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            nextBtn.style.display = 'none';
+            loadQuestion();
+            startTimer();
+        }
+
+        function endQuiz() {
+            clearInterval(timerInterval);
+            questionElement.textContent = 'কুইজ শেষ!';
+            optionsElement.innerHTML = '';
+            resultElement.textContent = `অভিনন্দন, ${userInfo.name}! তোমার স্কোর: ${score}`;
+            nextBtn.style.display = 'none';
+            replayBtn.style.display = 'block';
+            showLeaderboard();
+            showCertificate();
+        }
+
+        function showLeaderboard() {
+            leaderboard.style.display = 'block';
+            const leaderboardData = JSON.parse(localStorage.getItem('leaderboard')) || [];
+            leaderboardData.push({ name: userInfo.name, score, age: userInfo.age, institution: userInfo.institution });
+            leaderboardData.sort((a, b) => b.score - a.score);
+            localStorage.setItem('leaderboard', JSON.stringify(leaderboardData));
+            leaderboardList.innerHTML = '';
+            leaderboardData.slice(0, 5).forEach((entry, index) => {
+                const li = document.createElement('li');
+                li.textContent = `${index + 1}. ${entry.name} - স্কোর: ${entry.score} (বয়স: ${entry.age}, প্রতিষ্ঠান: ${entry.institution})`;
+                leaderboardList.appendChild(li);
+            });
+        }
+
+        function showCertificate() {
+            certificateText.innerHTML = `
+                অভিনন্দন, ${userInfo.name}!<br>
+                তুমি ${score} পেয়ে আলোর পথে সফর জিতেছ!<br>
+                বয়স: ${userInfo.age}, প্রতিষ্ঠান: ${userInfo.institution}<br>
+                আল্লাহ তোমাকে জ্ঞানের নুরে আলোকিত করুন।
+            `;
+            certificate.style.display = 'block';
+        }
+
+        function downloadCertificate() {
+            alert('সনদ ডাউনলোড ফিচার এখনো পুরোপুরি কাজ করে না। তবে তুমি স্ক্রিনশট নিয়ে সেভ করতে পারো!');
+        }
+
+        startBtn.onclick = startQuiz;
+        nextBtn.onclick = nextQuestion;
+        replayBtn.onclick = () => {
+            userForm.style.display = 'block';
+            gameInfo.style.display = 'none';
+            progress.style.display = 'none';
+            questionContainer.style.display = 'none';
+            resultElement.textContent = '';
+            document.getElementById('user-name').value = '';
+            document.getElementById('user-age').value = '';
+            document.getElementById('user-institution').value = '';
+        };
+        downloadBtn.onclick = downloadCertificate;
+    </script>
+</body>
+          </html>
